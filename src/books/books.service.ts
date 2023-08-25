@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, BadRequestException } from '@nestjs/common';
 import { Book } from '@prisma/client';
-import { PrismaService } from 'src/shared/services/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class BooksService {
