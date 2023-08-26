@@ -1,7 +1,8 @@
-import { Controller, Get, Delete, Post, Put, Body, NotFoundException, Param, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Delete, Post, Put, Body, NotFoundException, Param, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDTO } from './dtos/create-author.dto';
 import { UpdateAuthorDTO } from './dtos/update-author.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 
 @Controller('authors')
@@ -21,11 +22,13 @@ export class AuthorsController {
   }
 
   @Post('/')
+  @UseGuards(JwtAuthGuard)
   create(@Body() authorData: CreateAuthorDTO) {
     return this.authorsService.create(authorData);
   }
 
   @Put('/:id')
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() authorData: UpdateAuthorDTO,
@@ -38,6 +41,7 @@ export class AuthorsController {
   }
 
   @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
   async deleteById(@Param('id', new ParseUUIDPipe()) id: string){
     if(!(await this.authorsService.getById(id)))
       throw new NotFoundException('Author not found');
