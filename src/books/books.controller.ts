@@ -43,4 +43,11 @@ export class BooksController {
     await this.booksService.updateById(id, bookData);
     return { success: true };
   }
+
+  @Post('/like/')
+  @UseGuards(JwtAuthGuard)
+  async like(
+    @Param('bookId', new ParseUUIDPipe()) bookId: string,
+    @Param('userId', new ParseUUIDPipe()) userId: string,
+  ) {}
 }
